@@ -8,13 +8,14 @@ namespace :project do
 
       if @projects['error'] == 0
         projects_ids =  @projects['data'].map {|project| project['id']}
-        existing_project_ids = Project.where(id:projects_ids).map {|project| project.id}
+        existing_project_ids = Project.where(external_id:projects_ids).map {|project| project.external_id}
         new_project_ids = projects_ids-existing_project_ids
         project_records =  @projects['data'].select {|row| new_project_ids.include? row['id']}
         user_ids =  project_records.map {|row|  row['employeeId']}
         update_user_list(user_ids)
         project_records.map do |hash|
             hash[:user_id] = hash.delete 'employeeId'
+            hash[:external_id] = hash.delete 'id'
         end
         if !project_records.empty?
           Project.insert_all(project_records)
@@ -39,7 +40,7 @@ namespace :project do
         name = hash['name'].split(' ')
         hash[:first_name] =name[0]
         hash[:last_name] =name[1]
-        hash[:company_id] = 4
+        hash[:company_id] = Company.first.id
 
         hash[:id] = hash.delete 'id'
         hash.delete 'username'

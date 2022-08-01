@@ -1,0 +1,44 @@
+<div class="w-75 m-auto">
+<%= form_with model: company do |form| %>
+    <div class="mb-3">
+    <%= form.label :business_name,class:"form-label" %><br>
+    <%= form.text_field :business_name, class:"form-control" %>
+  </div>
+
+    <div class="mb-3">
+    <%= form.label :street_address,class:"form-label" %><br>
+    <%= form.text_field :street_address, class:"form-control" %>
+  </div>
+    <div class="mb-3">
+    <%= form.label :phone_number,class:"form-label" %><br>
+    <%= form.text_field :phone_number, class:"form-control" %>
+  </div>
+    <div class="mb-3">
+    <%= form.label :city ,class:"form-label" %><br>
+    <%= form.text_field :city, class:"form-control" %>
+  </div>
+    <div class="mb-3">
+      <%= form.label :working_days, class:"form-label" %>
+      <%= form.collection_check_boxes(:working_days, Company::DAYS, :last, :first) do |cb| %>
+        <div class="form-check ">
+          <%= cb.check_box checked:(company.working_days.include? cb.text.to_s) ,class:'form-check-input' %>
+          <%= cb.label class: 'form-check-label' %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="mb-3">
+      <%=form.fields_for :meta_data do |fields| %>
+        <%= fields.label :branch, class:"form-label" %>
+        <%= fields.text_field :branch,class:"form-control", value:form.object.meta_data['branch'] %>
+        <%= fields.label :created_date, class:"form-label" %>
+        <%= fields.date_field :created_date,class:"form-control",value:form.object.meta_data['created_date'] %>
+        <%=fields.object %>
+      <% end %>
+    </div>
+    <div class="mb-3 float-end">
+      <%= form.submit class:"btn btn-primary btn-sm" %>
+      <%=link_to 'Cancel', companies_path ,class: 'btn btn-sm btn-danger'%>
+    </div>
+<% end %>
+</div>

@@ -1,0 +1,54 @@
+
+<div class="container">
+  <div class=" d-flex align-items-end flex-column m-4">
+    <%= link_to' Add Company', new_company_path,class:"btn btn-success btn-sm" %>
+  </div>
+  <div class="table-responsive">
+    <table class="table">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Business Name</th>
+    <th scope="col">Address</th>
+    <th scope="col">Phone Number</th>
+    <th scope="col">City</th>
+    <th scope="col">Working Days</th>
+
+    <th scope="col">User</th>
+    <th colspan="3" class="text-center">Action</th>
+
+  </tr>
+  </thead>
+  <tbody>
+
+    <%@companies.each do |company| %>
+      <tr>
+        <th scope="row">  <%=company.id %></th>
+        <th scope="row">  <%=company.business_name %></th>
+        <th scope="row">  <%=company.street_address %></th>
+        <th scope="row">  <%=company.phone_number %></th>
+        <th scope="row">  <%=company.city %></th>
+        <th scope="row">  <%=company.working_days.reject(&:blank?).join(',') %></th>
+
+        <th scope="row">
+          <button type="button" class="btn btn-info position-relative">
+            Users<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            <%=company.users.count %>
+            <span class="visually-hidden">unread messages</span>
+          </span>
+          </button>
+        </th>
+        <th scope="row">  <%=link_to 'Show',company %></th>
+        <th scope="row">  <%=link_to 'Edit',edit_company_path(company) %></th>
+        <th scope="row">  <%=link_to 'Delete',company_path(company),data: {
+          turbo_method: :delete,
+          turbo_confirm: "Are you sure?"
+        } %>
+        </th>
+      </tr>
+  <% end %>
+
+  </tbody>
+</table>
+  </div>
+</div>

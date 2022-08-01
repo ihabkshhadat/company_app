@@ -1,0 +1,30 @@
+<div class="w-75 m-auto">
+<%= form_with model: user do |form| %>
+    <div class="mb-3">
+    <%= form.label :first_name,class:"form-label" %><br>
+    <%= form.text_field :first_name, class:"form-control" %>
+  </div>
+
+    <div class="mb-3">
+    <%= form.label :last_name,class:"form-label" %><br>
+    <%= form.text_field :last_name, class:"form-control" %>
+  </div>
+    <div class="mb-3">
+    <%= form.label :phone_number,class:"form-label" %><br>
+    <%= form.text_field :phone_number, class:"form-control" %>
+  </div>
+    <div class="mb-3">
+      <%= form.label :user_type,class:"form-label" %>
+      <%= form.select :user_type, options_for_select(User.user_types.keys,:selected => user.user_type)%>
+    </div>
+    <div class="mb-3">
+      <%= form.label :company_id ,class:"form-label" %><br>
+      <%= form.collection_select :company_id, Company.order(:business_name), :id, :business_name, {:selected => user.company_id} %>
+    </div>
+
+    <div class="mb-3 float-end">
+      <%= form.submit class:"btn btn-primary btn-sm" %>
+      <%=link_to 'Cancel', users_path ,class: 'btn btn-sm btn-danger'%>
+    </div>
+<% end %>
+</div>

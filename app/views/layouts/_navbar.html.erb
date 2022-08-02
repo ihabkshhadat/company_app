@@ -1,11 +1,11 @@
 <nav class="navbar sticky-top  navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
-    <%=link_to 'Company App', root_path,class:"navbar-brand" %>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <%=link_to 'Company App', root_path,class:"navbar-brand" %>
 
         <li class="nav-item">
           <%=link_to 'Company', root_path,class:"nav-link" %>
@@ -17,6 +17,10 @@
           <%=link_to 'Project', projects_path,class:"nav-link" %>
         </li>
       </ul>
+      <div class="navbar-nav mr-auto mb-2 mb-lg-0">
+        <%= yield :search_form %>
+      </div>
     </div>
   </div>
+
 </nav>

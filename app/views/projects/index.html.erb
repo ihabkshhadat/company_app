@@ -1,0 +1,76 @@
+
+<%if @projects%>
+  <% content_for :search_form do %>
+    <%=render 'projects/form_filter' %>
+  <%end %>
+
+    <div class="table-responsive">
+
+  <table class="table table-light table-striped p-4 m-4">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Employee Name</th>
+      <th scope="col">Project Domain</th>
+      <th scope="col">Description</th>
+      <th scope="col">Budget</th>
+      <th scope="col">Time Estimate</th>
+
+    </tr>
+    </thead>
+    <tbody id="project_items">
+      <% @projects.each do |project| %>
+        <%=render 'projects/project', project:project %>
+      <%end %>
+    </tbody>
+
+  </table>
+  </div>
+<%end %>
+
+
+<!-- The Modal -->
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Advance Search</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <%= form_tag projects_path, :method => 'get',id: 'project_search' do%>
+          <%= search_field_tag :search, params[:search], placeholder: "Search By Domain or Description", class:"form-control"  %>
+          <%=collection_select  params[:company],:company, Company.order(:business_name), :id, :business_name, class:"form-control",:prompt => "Select Company" %>
+          <%=collection_select  params[:user],:user, User.order(:last_name), :id, :last_name, class:"form-control",:prompt => "Select User" %>
+
+          <%= button_tag type:"submit",class:"btn btn-primary btn-sm" do%>
+            <i class="fa fa-search"></i>
+          <% end %>
+        <% end %>
+      </div>
+
+      <script>
+
+        $("#company").on('change',function (){
+            $.get('/filter_user_by_company',{company: this.value},null,'script');
+
+        });
+
+        $('#project_search').submit(function() {
+            $.get(this.action, $(this).serialize(),null,'script');
+            return false
+        });
+
+        $('#search').submit(function() {
+            $.get(this.action, $(this).serialize(),null,'script');
+            return false
+        });
+      </script>
+    </div>
+  </div>
+</div>
+

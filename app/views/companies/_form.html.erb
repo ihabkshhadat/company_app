@@ -30,10 +30,9 @@
     <div class="mb-3">
       <%=form.fields_for :meta_data do |fields| %>
         <%= fields.label :branch, class:"form-label" %>
-        <%= fields.text_field :branch,class:"form-control", value:form.object.meta_data['branch'] %>
+        <%= fields.text_field :branch,class:"form-control", value: (!form.object.meta_data.nil?)?form.object.meta_data['branch']:'' %>
         <%= fields.label :created_date, class:"form-label" %>
-        <%= fields.date_field :created_date,class:"form-control",value:form.object.meta_data['created_date'] %>
-        <%=fields.object %>
+        <%= fields.date_field :created_date,class:"form-control",value:((!form.object.meta_data.nil?)? form.object.meta_data['created_date']:'') %>
       <% end %>
     </div>
     <div class="mb-3 float-end">

@@ -1,14 +1,20 @@
-<p class="me-auto mb-2">
+<%= form_tag projects_path, :method => 'get',id:'projectFilterForm', class:"row w-50 m-auto shadow p-5 rounded bg-info" do %>
+    <div class="col-6">
+        <div class="form-group">
+          <%=label params[:company],:company %>
+          <%=collection_select params[:company],:company,Company.all,:id,:business_name,:prompt=>true , class:"form-control"%>
+        </div>
 
-<%= form_tag projects_path, :method => 'get',id:'search' do %>
-    <%= search_field_tag :search, params[:search], placeholder: "Search By Domain or Description"  %>
-    <%= button_tag type:"submit",class:"btn btn-primary btn-sm" do%>
-      <i class="fa fa-search"></i>
-    <% end %>
-    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#myModal">
-      <i class="fa fa-filter"></i>
-    </button>
+    </div>
+    <div class="col-6">
+        <div class="form-group">
+          <%=label params[:user],:user %>
+          <%=collection_select params[:user],:user,@users,:id,:last_name,:prompt=>true , class:"form-control"%>
+        </div>
+    </div>
+  <div class=" d-flex align-items-end flex-column ">
+    <%=submit_tag "Search", :class=> "btn btn-primary btn-sm"%>
+  </div>
 <% end %>
 
-</p>
 

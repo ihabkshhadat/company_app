@@ -1,11 +1,19 @@
 class ProjectsController < ApplicationController
 
   def index
-    if params[:search]
-      puts params[:company]
-      @projects = Project.where("project_domain like ?","%#{params[:search]}%").or(Project.where("description like ?","%#{params[:search]}%"))
+    @projects = helpers.filter(params)
+    respond_to do |format|
+      format.html
+      format.js
+    end
+
+  end
+
+  def filter_user_by_company
+    if  params[:company].present?
+      @users = User.where(:company_id => params[:company]).order(:last_name)
     else
-      @projects = Project.all
+      @users = User.all.order(:last_name)
     end
   end
 

@@ -18,7 +18,7 @@
 
     </tr>
     </thead>
-    <tbody>
+    <tbody id="project_items">
       <% @projects.each do |project| %>
         <%=render 'projects/project', project:project %>
       <%end %>
@@ -42,17 +42,36 @@
 
       <!-- Modal body -->
       <div class="modal-body">
-        <%= form_tag projects_path, :method => 'get' do%>
+        <%= form_tag projects_path, :method => 'get',id: 'project_search' do%>
           <%= search_field_tag :search, params[:search], placeholder: "Search By Domain or Description", class:"form-control"  %>
 
           <%=range_field_tag :date, params[:date],in: 1..100 , class:"form-control"%>
-          <%=collection_select  params[:company],:company, Company.order(:business_name), :id, :business_name, class:"form-control" %>
+          <%=collection_select  params[:company],:company, Company.order(:business_name), :id, :business_name, class:"form-control",:prompt => "Select Company" %>
+          <%=collection_select  params[:user],:user, User.order(:last_name), :id, :last_name, class:"form-control",:prompt => "Select User" %>
 
           <%= button_tag type:"submit",class:"btn btn-primary btn-sm" do%>
             <i class="fa fa-search"></i>
           <% end %>
         <% end %>
       </div>
+
+      <script>
+
+        $("#company").on('change',function (){
+            $.get('/filter_user_by_company',{company: this.value},null,'script');
+
+        });
+
+        $('#project_search').submit(function() {
+            $.get(this.action, $(this).serialize(),null,'script');
+            return false
+        });
+
+        $('#search').submit(function() {
+            $.get(this.action, $(this).serialize(),null,'script');
+            return false
+        });
+      </script>
     </div>
   </div>
 </div>

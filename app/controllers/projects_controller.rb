@@ -8,7 +8,6 @@ class ProjectsController < ApplicationController
     else
       @projects = Project.all
     end
-    puts @projects.to_json(include: :user)
     respond_to do |format|
       format.html
       format.json { render json: @projects.to_json(include: :user), status: :ok }

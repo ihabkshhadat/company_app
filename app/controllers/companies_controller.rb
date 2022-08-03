@@ -1,5 +1,5 @@
 class CompaniesController < ApplicationController
-  before_action get_object, only: i[show, edit, update, destroy]
+  before_action :set_company, only: %i[show, edit, update, destroy]
 
   def index
     @companies = Company.all
@@ -41,13 +41,12 @@ class CompaniesController < ApplicationController
 
   private
 
-  def company_params
-    params.require(:company).permit(:business_name, :street_address, :phone_number, :city, working_days: [], meta_data: [:branch, :created_date])
+  def set_company
+    @company = Company.find_by(id: params[:id])
   end
 
-  def get_object
-    @company = Company.find(params[:id])
-
+  def company_params
+    params.require(:company).permit(:business_name, :street_address, :phone_number, :city, working_days: [], meta_data: [:branch, :created_date])
   end
 
 end

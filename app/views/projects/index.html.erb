@@ -23,37 +23,42 @@
   </table>
   </div>
   <script>
-      $('#projectFilterForm').submit(function (e){
-          e.preventDefault();
-          var form = $(this);
 
-          $.ajax({
-              type: 'GET',
-              url: form.attr('action'),
-              dataType: 'json',
-              data: form.serialize(),
-          }).done(function(data){
+      $(document).ready( function () {
+          $('#projectTable').DataTable({
+              destroy: true,
+          });
+          $('#projectFilterForm').submit(function (e){
+              e.preventDefault();
+              var form = $(this);
+              $.ajax({
+                  type: 'GET',
+                  url: form.attr('action'),
+                  dataType: 'json',
+                  data: form.serialize(),
+              }).done(function(data){
+                  $('#projectTable').DataTable({
+                      destroy: true,
+                      data: data,
+                      columns: [
+                          { data: 'external_id' },
+                          { data: 'user.last_name' },
+                          { data: 'project_domain' },
+                          { data: 'description' },
+                          { data: 'budget' },
+                          { data: 'time_estimate' },
+                      ],
 
-              $('#projectTable').DataTable({
-                  destroy: true,
-                  data: data,
-                  columns: [
-                      { data: 'external_id' },
-                      { data: 'user_id' },
-                      { data: 'project_domain' },
-                      { data: 'description' },
-                      { data: 'budget' },
-                      { data: 'time_estimate' },
-                  ],
-
-              }).draw();
-          }).fail(function(e) {
-              console.log( e );
+                  }).draw();
+              }).fail(function(e) {
+                  console.log( e );
+              });
+          });
+          $('#company').on('change',function (){
+              $.get('/filter_user_by_company',{company: this.value},null,'script');
           });
       });
-      $('#company').on('change',function (){
-          $.get('/filter_user_by_company',{company: this.value},null,'script');
-      });
+
 
   </script>
 

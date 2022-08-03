@@ -8,7 +8,7 @@ class ProjectsController < ApplicationController
     else
       @projects = Project.all
     end
-    respond_to  do |format|
+    respond_to do |format|
       format.html
       format.json { render json: @projects.to_json, status: :ok }
     end
@@ -16,7 +16,7 @@ class ProjectsController < ApplicationController
 
   def filter_user_by_company
     if params[:company].present?
-      @users = User.where(company_id:  params[:company].to_i).order(:last_name)
+      @users = User.where(company_id: params[:company].to_i).order(:last_name)
     else
       @users = User.all.order(:last_name)
     end

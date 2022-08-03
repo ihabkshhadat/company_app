@@ -4,7 +4,7 @@ module Api
   class ProjectApi < CompanyAPI
 
     def initialize
-      @sub_url ='/projects'
+      @sub_url = '/projects'
     end
 
     def getProjects

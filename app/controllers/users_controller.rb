@@ -1,11 +1,11 @@
 class UsersController < ApplicationController
+  before_action get_object, only: i[show, edit, update, destroy]
 
   def index
     @users = User.all
   end
 
   def show
-    @user = User.find_by(id:params[:id])
   end
 
   def new
@@ -13,7 +13,6 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find_by(id:params[:id])
   end
 
   def create
@@ -26,7 +25,6 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user = User.find_by(id:params[:id])
     if @user.update(user_params)
       redirect_to @user
     else
@@ -35,14 +33,19 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    User.destroy_by(id:params[:id])
+    @user.destroy
     redirect_to root_path, status: :see_other
   end
 
   private
+
   def user_params
-    params.require(:user).permit(:first_name,:last_name,:phone_number,:user_type,:company_id)
+    params.require(:user).permit(:first_name, :last_name, :phone_number, :user_type, :company_id)
   end
 
+  def get_object
+    @user = User.find_by(id: params[:id])
+
+  end
 
 end

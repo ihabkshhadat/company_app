@@ -1,66 +1,29 @@
+<% content_for :javascript_includes do %>
+  <%= javascript_include_tag "projects.js" %>
+<% end %>
 <div class="container p-4">
-  <%if @projects%>
-    <%=render 'projects/form_filter' %>
+  <% if @projects %>
+    <%= render 'projects/form_filter' %>
 
     <div class="table-responsive  p-4 m-4">
-    <table class="table table-light table-striped" id="projectTable">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">User</th>
-        <th scope="col">Project Domain</th>
-        <th scope="col">Description</th>
-        <th scope="col">Budget</th>
-        <th scope="col">Time Estimate</th>
-      </tr>
-    </thead>
-    <tbody id="project_items">
-      <% @projects.each do |project| %>
+      <table class="table table-light table-striped" id="projectTable">
+        <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">User</th>
+          <th scope="col">Project Domain</th>
+          <th scope="col">Description</th>
+          <th scope="col">Budget</th>
+          <th scope="col">Time Estimate</th>
+        </tr>
+        </thead>
+        <tbody id="project_items">
+        <% @projects.each do |project| %>
         <%=render 'projects/project', project:project %>
-      <%end %>
-    </tbody>
+        <%end %>
+        </tbody>
 
-  </table>
-  </div>
-  <script>
-
-      $(document).ready( function () {
-          $('#projectTable').DataTable({
-              destroy: true,
-          });
-          $('#projectFilterForm').submit(function (e){
-              e.preventDefault();
-              var form = $(this);
-              $.ajax({
-                  type: 'GET',
-                  url: form.attr('action'),
-                  dataType: 'json',
-                  data: form.serialize(),
-              }).done(function(data){
-                  $('#projectTable').DataTable({
-                      destroy: true,
-                      data: data,
-                      columns: [
-                          { data: 'external_id' },
-                          { data: 'user.last_name' },
-                          { data: 'project_domain' },
-                          { data: 'description' },
-                          { data: 'budget' },
-                          { data: 'time_estimate' },
-                      ],
-
-                  }).draw();
-              }).fail(function(e) {
-                  console.log( e );
-              });
-          });
-          $('#company').on('change',function (){
-              $.get('/filter_user_by_company',{company: this.value},null,'script');
-          });
-      });
-
-
-  </script>
-
-<%end %>
+      </table>
+    </div>
+  <% end %>
 </div>

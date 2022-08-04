@@ -1,29 +1,31 @@
-<div class="card mb-3" >
+<div class="card mb-3">
   <div class="row g-0">
     <div class="col-md-4">
       <img src="..." class="img-fluid rounded-start" alt="...">
     </div>
     <div class="col-md-8">
       <div class="card-body">
-        <h5 class="card-title"><%=@company.business_name %></h5>
+        <h5 class="card-title"><%= @company.business_name %></h5>
         <h3>Our Employee</h3>
         <ul>
-          <%@company.users.each do |user| %>
+          <% @company.users.each do |user| %>
 
-          <li>
+            <li>
 
-            <%="#{user.first_name} #{user.last_name}" %>
-            <%=link_to 'edit',edit_user_path(user)  %>
-            <%=link_to 'delete',user_path(user),data: {
-              turbo_method: :delete,
-              turbo_confirm: "Are you sure?"
-            }  %>
+              <%= "#{user.full_name}" %>
+              <%= link_to 'edit', edit_user_path(user) %>
+              <%= link_to 'delete', user_path(user), data: {
+                turbo_method: :delete,
+                turbo_confirm: "Are you sure?"
+              } %>
 
-          </li>
+            </li>
 
           <% end %>
         </ul>
-        <p class="card-text"><small class="text-muted"><%=@company.city %> <%=@company.street_address %> <%=@company.phone_number %></small></p>
+        <p class="card-text">
+          <small class="text-muted"><%= @company.city %> <%= @company.street_address %> <%= @company.phone_number %></small>
+        </p>
       </div>
     </div>
   </div>

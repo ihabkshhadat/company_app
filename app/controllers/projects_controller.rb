@@ -2,7 +2,6 @@ class ProjectsController < ApplicationController
 
   def index
     @users = User.all.order(:last_name)
-
     if params[:user].present?
       @projects = Project.where(user_id: params[:user])
     else

@@ -19,7 +19,7 @@
     </div>
     <div class="mb-3">
       <%= form.label :company_id, class: "form-label" %><br>
-      <%= form.collection_select :company_id, Company.order("id DESC"), :id, :business_name, { :selected => user.company_id } %>
+      <%= form.collection_select :company_id, Company.all, :id, :business_name, { :selected => user.company_id } %>
     </div>
 
     <div class="mb-3 float-end">
